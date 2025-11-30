@@ -5,6 +5,8 @@
 package cl.duocuc.capinillag.pnb.gui;
 
 import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -14,20 +16,114 @@ public class MainFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
 
+    //private JPanel contentPanel;
+    private CardLayout cardLayout;
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        setupNavigation();
+
         
         setTitle("Pixel & Bean – Sistema de Gestión");
         setSize(900, 600);
         setLocationRelativeTo(null);  // Centra la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+    }
+    
+    private void setupNavigation() {
+        // Inicializar CardLayout
+        cardLayout = new CardLayout();
+        contentPanel.setLayout(cardLayout);
         
+        // Crear y agregar las vistas
+        contentPanel.add(createHomePanel(), "HOME");
+        contentPanel.add(new UsuariosPanel(), "USUARIOS");
+        contentPanel.add(new ProductosPanel(), "PRODUCTOS");
+        contentPanel.add(new VentasPanel(), "VENTAS");
+        contentPanel.add(new ReportesPanel(), "REPORTES");
+        contentPanel.add(new EventosPanel(), "EVENTOS");
+        
+        // Mostrar pantalla inicial
+        mostrarVista("HOME");
     }
 
+    private JPanel createHomePanel() {
+        JPanel panel = new JPanel(new GridBagLayout());
+        JLabel label = new JLabel("<html><center>" +
+            "<h1>☕🎮 Pixel & Bean</h1>" +
+            "<p>Sistema de Gestión para Café-Arcade</p>" +
+            "<p style='margin-top: 20px;'>Selecciona una opción del menú superior para comenzar</p>" +
+            "</center></html>");
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel.add(label);
+        return panel;
+    }
+    
+    public void mostrarVista(String nombreVista) {
+        cardLayout.show(contentPanel, nombreVista);
+    }
+    
+    // Métodos generados por NetBeans para los menús
+    private void menuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {
+        mostrarVista("USUARIOS");
+    }
+    
+    private void menuProductosActionPerformed(java.awt.event.ActionEvent evt) {
+        mostrarVista("PRODUCTOS");
+    }
+    
+    private void menuVentasActionPerformed(java.awt.event.ActionEvent evt) {
+        mostrarVista("VENTAS");
+    }
+    
+    private void menuVentasDelDiaActionPerformed(java.awt.event.ActionEvent evt) {
+        mostrarVista("REPORTES");
+    }
+    
+    private void menuTorneosActionPerformed(java.awt.event.ActionEvent evt) {
+        mostrarVista("EVENTOS");
+    }
+    
+    private void menuCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {
+        int respuesta = JOptionPane.showConfirmDialog(this,
+            "¿Estás seguro de que deseas cerrar sesión?",
+            "Confirmar",
+            JOptionPane.YES_NO_OPTION);
+        
+        if (respuesta == JOptionPane.YES_OPTION) {
+            this.dispose();
+            // Aquí abriremos el Login nuevamente en clases futuras
+            new cl.duocuc.capinillag.pnb.gui.LoginFrame().setVisible(true);
+        }
+    }
+    
+    private void menuSalirActionPerformed(java.awt.event.ActionEvent evt) {
+        int respuesta = JOptionPane.showConfirmDialog(this,
+            "¿Estás seguro de que deseas salir?",
+            "Confirmar salida",
+            JOptionPane.YES_NO_OPTION);
+        
+        if (respuesta == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }
+    
+    private void menuAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {
+        JOptionPane.showMessageDialog(this,
+            "<html><center>" +
+            "<h2>Pixel & Bean</h2>" +
+            "<p>Sistema de Gestión para Café-Arcade</p>" +
+            "<p>Versión 1.0.0</p>" +
+            "<p style='margin-top: 10px;'>Desarrollado por: Tu Nombre</p>" +
+            "<p>Asignatura: Programación Orientada a Objetos</p>" +
+            "<p>Año: 2025</p>" +
+            "</center></html>",
+            "Acerca de",
+            JOptionPane.INFORMATION_MESSAGE);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,6 +135,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         panel1 = new java.awt.Panel();
         jLabel1 = new javax.swing.JLabel();
+        contentPanel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -57,6 +154,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setText("Usuario: (sin iniciar sesión)");
 
@@ -75,6 +173,17 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addComponent(jLabel1)
                 .addContainerGap(42, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
+        contentPanel.setLayout(contentPanelLayout);
+        contentPanelLayout.setHorizontalGroup(
+            contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        contentPanelLayout.setVerticalGroup(
+            contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Archivo");
@@ -135,14 +244,21 @@ public class MainFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(141, 141, 141)
-                .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(141, 141, 141)
+                        .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(171, 171, 171)
+                        .addComponent(contentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(159, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 177, Short.MAX_VALUE)
+                .addGap(0, 67, Short.MAX_VALUE)
+                .addComponent(contentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -175,6 +291,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel contentPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
